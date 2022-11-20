@@ -144,19 +144,17 @@ main(){
 				cout<<"CONSULTA DE PACIENTE\n\n";
 				cout<<"Ingrese el codigo del paciente a buscar: ";
 				cin>>llave;
-				if (newfile.is_open()){
-					while(!feof(ptrcf)){
+				if ((ptrcf = fopen("clinica.txt", "r"))==NULL)
+					cout<<"El archivo no pudo abrirse\n";
+				else if (!feof(ptrcf)){
 						if (paciente.codigo == llave){
 							cout<<"Codigo - Nombre y Apellido - Telefono - Edad - Altura - Peso - IMC inicial - IMC actual - Estado\n";
-							printf("%d %s %s %d %d %.2f %.2f %.2f %.2f %s\n", paciente.codigo, paciente.nombre, paciente.apellido, paciente.telefono, paciente.edad, paciente.altura, paciente.peso, paciente.IMCi, paciente.IMCa, paciente.tIMCa);
+							printf("%d - %s - %s - %d - %d - %.2f - %.2f - %.2f - %.2f - %S\n", paciente.codigo, paciente.nombre, paciente.apellido, paciente.telefono, paciente.edad, paciente.altura, paciente.peso, paciente.IMCi, paciente.IMCa, paciente.tIMCa);
+							fclose(ptrcf);
 						}//fin if
 						fscanf(ptrcf, "%d %s %s %d %d %.2f %.2f %.2f %.2f %s\n", &paciente.codigo, paciente.nombre, paciente.apellido, &paciente.telefono, &paciente.edad, &paciente.altura, &paciente.peso, &paciente.IMCi, &paciente.IMCa);
 					fclose(ptrcf);
-					}//fin while
 				}//fin if
-				else {
-					cout<<"El archivo no pudo abrirse\n";
-				}
 			break;
 		}//fin switch
 		cout << "\n\nIngrese un numero para regresar al menu o -6- para salir"<<endl;
