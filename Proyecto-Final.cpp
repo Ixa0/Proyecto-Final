@@ -15,12 +15,35 @@ struct informacion{
 	int telefono;
 	float IMCi;
 	float IMCa;
-	char tIMCa;
+	string tIMCa=" ";
 	int edad;
 	float altura;
 	float peso;
 };
 typedef informacion ficha;
+
+float IMC(float altura, float peso){
+	float resultado;
+	resultado = (peso/2.2)/(altura*altura);
+	return(resultado);
+}
+
+string estado (float IMC){
+	string resultado=" ";
+	if (IMC<=18.5){
+		resultado="Bajo peso";
+	}
+		else if(IMC<=24.99 && IMC>=18.5){
+			resultado="Peso normal";
+		}
+			else if(IMC<=30.00 && IMC>25.00){
+				resultado="Sobrepeso";
+			}
+			else if(IMC>30){
+				resultado="Obesidad";
+			}
+	return (resultado);
+}
 
 main(){
 	int op;
@@ -55,21 +78,24 @@ main(){
 					cin>>paciente.telefono;
 					cout<<" - Edad: ";
 					cin>>paciente.edad;
-					while (paciente.edad>65 || paciente.edad<20){
-						cout<<"La edad no está en un rango posible. Intente nuevamente.";
+					while (paciente.edad>=65 || paciente.edad<=20){
+						cout<<"La edad no esta en un rango posible (20-65). Intente nuevamente.";
 						cin>>paciente.edad;
 					}
 					cout<<" - Altura: ";
 					cin>>paciente.altura;
 					cout<<" - Peso: ";
 					cin>>paciente.peso;
-					paciente.IMCi=(paciente.peso/2.2)/(paciente.altura*paciente.altura);
-					cout<<" - IMC inicial: "<<paciente.IMCi;
+					paciente.IMCi=IMC(paciente.altura, paciente.peso);
+					paciente.IMCa=paciente.IMCi;
+					paciente.tIMCa=estado(paciente.IMCa);
+					cout<<" - IMC inicial: "<<paciente.IMCi<<endl;
+					cout<<" - Estado de IMC: "<<paciente.tIMCa;
 					cout<<"\nPulse Ctrl Z para guardar la informacion en la base de datos.\n";
 					if(!feof(stdin)){
-						fprintf(ptrcf, "%d %s %s %d %d %.2f %.2f %.2f\n", paciente.codigo, paciente.nombre, paciente.apellido, paciente.telefono, paciente.edad, paciente.altura, paciente.peso, paciente.IMCi);
+						fprintf(ptrcf, "%d %s %s %d %d %.2f %.2f %.2f %.2f %c\n", paciente.codigo, paciente.nombre, paciente.apellido, paciente.telefono, paciente.edad, paciente.altura, paciente.peso, paciente.IMCi, paciente.IMCa, paciente.tIMCa);
 						//printf("Ingrese datos o Ctrl Z para finalizar: ");
-						scanf("%d %s %s %d %d %.2f %.2f %.2f\n", &paciente.codigo, paciente.nombre, paciente.apellido, &paciente.telefono, &paciente.edad, &paciente.altura, &paciente.peso, &paciente.IMCi);
+						scanf("%d %s %s %d %d %.2f %.2f %.2f %.2f %c\n", &paciente.codigo, paciente.nombre, paciente.apellido, &paciente.telefono, &paciente.edad, &paciente.altura, &paciente.peso, &paciente.IMCi, &paciente.IMCa, paciente.tIMCa);
 					}//fin if
 				fclose(ptrcf);
 				}//fin else
@@ -97,7 +123,7 @@ main(){
 					cin>>paciente.altura;
 					cout<<" - Peso: ";
 					cin>>paciente.peso;
-					paciente.IMCa=(paciente.peso/2.2)/(paciente.altura*paciente.altura);
+					paciente.IMCa=IMC(paciente.altura, paciente.peso);
 					cout<<" - IMC actual: "<<paciente.IMCa;
 					cout<<"\nPulse Ctrl Z para guardar la informacion en la base de datos.\n";
 					if(!feof(stdin)){
