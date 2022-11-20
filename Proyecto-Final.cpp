@@ -1,11 +1,10 @@
-//012-22-6185	- Luis Rodriguez
 //012-22-8613	- Ixyamanik Rodriguez
-//012-22-12198	- Erick Avila
 #include <iostream>
 #include <stdlib.h>
 #include <conio.h>
 #include <string.h>
 #include <stdio.h>
+#include <fstream>
 using namespace std;
 
 struct informacion{
@@ -49,9 +48,9 @@ main(){
 	int op;
 	system("color 70");
 	ficha paciente;
-	int llave, resultado;
-	char* aux;
+	int llave, resultado, i;
 	FILE *ptrcf;//puntero
+	fstream newfile;
 	do{
 		system("cls");
 		cout<<"Clinica de Nutricion\n\n";
@@ -79,8 +78,8 @@ main(){
 					cin>>paciente.telefono;
 					cout<<" - Edad: ";
 					cin>>paciente.edad;
-					while (paciente.edad>=65 || paciente.edad<=20){
-						cout<<"La edad no esta en un rango posible (20-65). Intente nuevamente.";
+					while (paciente.edad<20 || paciente.edad>65){
+						cout<<"   La edad no esta en un rango posible (20-65). Intente nuevamente.\n   ";
 						cin>>paciente.edad;
 					}
 					cout<<" - Altura: ";
@@ -145,15 +144,18 @@ main(){
 				cout<<"CONSULTA DE PACIENTE\n\n";
 				cout<<"Ingrese el codigo del paciente a buscar: ";
 				cin>>llave;
-				if ((ptrcf = fopen("clinica.txt", "r"))==NULL)//a+ es leer, escribir y añadir archivo 
-					cout<<"El archivo no pudo abrirse\n";
-				else{
+				if (newfile.is_open()){
 					while(!feof(ptrcf)){
 						if (paciente.codigo == llave){
+							cout<<"Codigo - Nombre y Apellido - Telefono - Edad - Altura - Peso - IMC inicial - IMC actual - Estado\n";
 							printf("%d %s %s %d %d %.2f %.2f %.2f %.2f %s\n", paciente.codigo, paciente.nombre, paciente.apellido, paciente.telefono, paciente.edad, paciente.altura, paciente.peso, paciente.IMCi, paciente.IMCa, paciente.tIMCa);
 						}//fin if
+						fscanf(ptrcf, "%d %s %s %d %d %.2f %.2f %.2f %.2f %s\n", &paciente.codigo, paciente.nombre, paciente.apellido, &paciente.telefono, &paciente.edad, &paciente.altura, &paciente.peso, &paciente.IMCi, &paciente.IMCa);
+					fclose(ptrcf);
 					}//fin while
-				fclose(ptrcf);
+				}//fin if
+				else {
+					cout<<"El archivo no pudo abrirse\n";
 				}
 			break;
 		}//fin switch
