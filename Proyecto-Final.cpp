@@ -15,7 +15,7 @@ struct informacion{
 	int telefono;
 	float IMCi;
 	float IMCa;
-	string tIMCa=" ";
+	char* tIMCa;
 	int edad;
 	float altura;
 	float peso;
@@ -28,19 +28,19 @@ float IMC(float altura, float peso){
 	return(resultado);
 }
 
-string estado (float IMC){
-	string resultado=" ";
+char* estado (float IMC){
+	char* resultado = new char[11];
 	if (IMC<=18.5){
-		resultado="Bajo peso";
+		strcpy(resultado, "Bajo peso");
 	}
-		else if(IMC<=24.99 && IMC>=18.5){
-			resultado="Peso normal";
+		else if(IMC>=18.5 && IMC<=24.99){
+			strcpy(resultado, "Peso normal");
 		}
-			else if(IMC<=30.00 && IMC>25.00){
-				resultado="Sobrepeso";
+			else if(IMC>25.00 && IMC<=30.00){
+				strcpy(resultado, "Sobrepeso");
 			}
 			else if(IMC>30){
-				resultado="Obesidad";
+				strcpy(resultado, "Obesidad");
 			}
 	return (resultado);
 }
@@ -50,6 +50,7 @@ main(){
 	system("color 70");
 	ficha paciente;
 	int llave, resultado;
+	char* aux;
 	FILE *ptrcf;//puntero
 	do{
 		system("cls");
@@ -88,14 +89,14 @@ main(){
 					cin>>paciente.peso;
 					paciente.IMCi=IMC(paciente.altura, paciente.peso);
 					paciente.IMCa=paciente.IMCi;
-					paciente.tIMCa=estado(paciente.IMCa);
 					cout<<" - IMC inicial: "<<paciente.IMCi<<endl;
+					paciente.tIMCa=estado(paciente.IMCa);
 					cout<<" - Estado de IMC: "<<paciente.tIMCa;
 					cout<<"\nPulse Ctrl Z para guardar la informacion en la base de datos.\n";
 					if(!feof(stdin)){
-						fprintf(ptrcf, "%d %s %s %d %d %.2f %.2f %.2f %.2f %c\n", paciente.codigo, paciente.nombre, paciente.apellido, paciente.telefono, paciente.edad, paciente.altura, paciente.peso, paciente.IMCi, paciente.IMCa, paciente.tIMCa);
+						fprintf(ptrcf, "%d %s %s %d %d %.2f %.2f %.2f %.2f %s\n", paciente.codigo, paciente.nombre, paciente.apellido, paciente.telefono, paciente.edad, paciente.altura, paciente.peso, paciente.IMCi, paciente.IMCa, paciente.tIMCa);
 						//printf("Ingrese datos o Ctrl Z para finalizar: ");
-						scanf("%d %s %s %d %d %.2f %.2f %.2f %.2f %c\n", &paciente.codigo, paciente.nombre, paciente.apellido, &paciente.telefono, &paciente.edad, &paciente.altura, &paciente.peso, &paciente.IMCi, &paciente.IMCa, paciente.tIMCa);
+						scanf("%d %s %s %d %d %.2f %.2f %.2f %.2f %s\n", &paciente.codigo, paciente.nombre, paciente.apellido, &paciente.telefono, &paciente.edad, &paciente.altura, &paciente.peso, &paciente.IMCi, &paciente.IMCa, paciente.tIMCa);
 					}//fin if
 				fclose(ptrcf);
 				}//fin else
