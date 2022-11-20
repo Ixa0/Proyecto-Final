@@ -32,7 +32,7 @@ main(){
 		system("cls");
 		cout<<"Clinica de Nutricion\n\n";
 		cout<<" 1. Ingreso de paciente nuevo\n";
-		cout<<" 2. Actualización de datos\n";
+		cout<<" 2. Actualizacion de datos\n";
 		cout<<" 3. Eliminar Paciente\n";
 		cout<<" 4. Reporte General\n";
 		cout<<" 5. Consulta Paciente\n";
